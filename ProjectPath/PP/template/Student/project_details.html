@@ -1,0 +1,145 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails du projet - PROJECTPATH</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{%static 'css/details.css'%}">
+</head>
+<body>
+
+    <div class="top-bar">
+        <a href="{% url 'home' user_id %}" class="btn-retour">
+            <i class="fa-solid fa-arrow-left"></i> Retour
+        </a>
+    </div>
+
+    <main class="container">
+        
+        <!-- HEADER DU PROJET -->
+        <section class="project-header-card">
+            <div class="project-title-row">
+                <h1 class="project-title">{{p.nom_projet}}</h1>
+                <span class="badge badge-yellow"><i class="fa-regular fa-clock"></i> {{p.statut}}</span>
+                <span class="badge badge-outline">{{p.domaine}}</span>
+            </div>
+            
+            <p class="project-description">
+                Application mobile pour promouvoir les pratiques écologiques en ville et récompenser les citoyens éco-responsables.
+            </p>
+            
+            <div class="project-meta">
+                <span><i class="fa-regular fa-calendar"></i> Soumis le {{p.created_at|date:"d/m/Y H:i" }}</span>
+            </div>
+        </section>
+
+        <!-- LAYOUT 2 COLONNES -->
+        <div class="layout-grid">
+            
+            <!-- COLONNE GAUCHE (Principale) -->
+            <div class="main-column">
+                
+                <!-- Section avec Onglets -->
+                <div class="card tabs-card">
+                    
+                    <div class="tab-content active" id="vue-ensemble">
+                        <div class="content-section">
+                            <h3 class="section-title">Problème résolu</h3>
+                            <p class="section-text">{{p.probleme_resolu}}</p>
+                        </div>
+                        
+                        <hr class="divider">
+                        
+                        <div class="content-section">
+                            <h3 class="section-title">Objectifs</h3>
+                            <p class="section-text">{{p.objectif}}</p>
+                        </div>
+
+                        <hr class="divider">
+                        
+                        <div class="content-section">
+                            <h3 class="section-title">Soumetteur</h3>
+                            <p class=" "section-text>{{p.participants}}</p>
+                        </div>
+
+                        <div class = 'content-section'>
+                            <h3 class = 'section-title'>Besoins lié</h3>
+                            <ul>
+                                {%if besoin%}
+                                    {%for b in besoin%}
+                                    <p class=" "section-text>{{b.description}}</p>
+                                    {%endfor%}
+                                {%else%}
+                                    <p class=" "section-text>Vous n'avez aucun besoin associé a ce projet</p>
+                                {%endif%}
+                            </ul>
+                        </div>
+
+                         <div class = 'content-section'>
+                            <h3 class = 'section-title'>Document lié:</h3>
+                            <p class=" "section-text><a href= '/media/{{p.file_path}}' >Cliquez ici</a></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Section Commentaires -->
+                <div class="card comments-card">
+                    <h2 class="card-title">Commentaires & Échanges</h2>
+                    <p class="card-subtitle">Communication avec l'administration</p>
+                    
+                    <div class="comments-empty">
+                        {%for m in message%}
+                              <h3><b>{{m.emetteur.last_name}} {{m.emetteur.first_name}}</b></h3><br>
+                              <p>{{m.contenu}}</p><br>
+                         {%endfor%}
+                    </div>
+                    
+                    <form class="comment-input-area" method="POST" action = "">
+                        {%csrf_token%}
+                        {{form.contenu}}
+                        <input type = "submit" class="btn-envoyer" value = "Envoyer"/>
+                    </form>
+                </div>
+                
+            </div>
+
+            <!-- COLONNE DROITE (Latérale) -->
+            <div class="sidebar-column">
+                
+                <!-- Statut du projet -->
+                <div class="card">
+                    <h2 class="card-title">Statut du projet</h2>
+                    <div class="status-box">
+                        <span class="badge badge-yellow"><i class="fa-regular fa-clock"></i>{{p.statut}}</span>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="card">
+                    <h2 class="card-title">Actions</h2>
+                    {%if document_manquant%}
+                        <a href="{% url 'modify_Project' p.id user_id %}" class="btn-action-outline">
+                            Modifiez votre projet
+                        </a>
+                    {%else%}
+                        <p class="project-description">Aucune action possible pour l'instant.</p>
+                    {%endif%}
+                </div>
+
+            </div>
+            
+        </div>
+
+    </main>
+
+    <!--<script type="text/javascript" src = "{% static 'js/details.js' %}"></script>-->
+</body>
+</html>
+

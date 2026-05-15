@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%load static%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+<body>
+
+    <div class="description">
+        <div class="logo">
+            
+            <i class="fa-solid fa-rocket" id="fusee"></i>
+            <div class="nom">
+                <h2>projectpath</h2>
+                <p>Innovation & Startup Hub</p>
+            </div>
+        </div>
+            <h3>Transformez vos idées en réalité</h3>
+            <p id="des">La plateforme officielle de déclaration et de gestion des startups de votre école.</p>
+
+            <div class="same">
+                <i class="fa-regular fa-circle-dot"></i>
+                <div class="txt">
+                    <h4>Soumettez vos projets</h4>
+                    <p>Déclarez votre startup et présentez votre vision</p>
+                </div>
+            </div>
+
+             <div class="same">
+                <i class="fa-regular fa-circle-dot"></i>
+                <div class="txt">
+                    <h4>Obtenez du soutien</h4>
+                    <p>Accédez aux ressources et à l'accompagnement</p>
+                </div>
+            </div>
+
+             <div class="same">
+                <i class="fa-regular fa-circle-dot"></i>
+                <div class="txt">
+                    <h4>Suivez vos progrès</h4>
+                    <p>Dashboard complet et notifications en temps réel</p>
+                </div>
+            </div>
+        
+    </div>
+
+    <div class="formulaire" >
+    <div class="container active" id="connexion">
+        <h3>Bienvenue sur PROJECTPATH</h3>
+      <p>Connectez-vous ou créez un compte pour commencer</p>
+    
+      <!-- Error Notifications -->
+      <!-- Field Errors Notification -->
+      {% if form.errors %}
+        <div class="alert alert-warning alert-dismissible">
+          <span class="close-btn">&times;</span>
+          <strong>Veuillez corriger les erreurs suivantes:</strong>
+          <ul>
+            {% for field in form %}
+              {% for error in field.errors %}
+                <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+              {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+              <li><strong>Erreur:</strong> {{ error }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+    <form action="" method="POST" novalidate>
+                {%csrf_token%}
+                <label for="id_username">Username:</label>
+
+                <div class="helptext" id="id_username_helptext">Requis. 150 Caractères ou moins. Lettres, chiffres et @/./+/-/_ Seulement.</div>
+                
+                <input type="text" name="username"  maxlength="150" autofocus="" required="" aria-describedby="id_username_helptext" id="id_username" value="{{ form.username.value|default_if_none:'' }}">
+                
+                <p>
+                    
+                    <label for="id_matricule">Matricule:</label>
+                    <input type="number" name="matricule" required="" aria-invalid="true" aria-describedby="id_matricule_error" id="id_matricule" value="{{ form.matricule.value|default_if_none:'' }}">
+                </p>
+
+                <div>
+                    <label for="id_first_name">Prenom:</label>
+                    <input type="text" name="first_name"  maxlength="150" required="" id="id_first_name" value="{{ form.first_name.value|default_if_none:'' }}">
+                </div>
+
+                <div>
+                    <label for="id_last_name">Nom de famille:</label>
+                    <input type="text" name="last_name" maxlength="150" required="" id="id_last_name" value="{{ form.last_name.value|default_if_none:'' }}">    
+                </div>
+
+                <div>
+                    <label for="id_email">Adresse mail</label>
+                    <input type="email" name="email" maxlength="254" required="" id="id_email" value="{{ form.email.value|default_if_none:'' }}">
+                    
+                </div>
+                <div>
+                    <label for="id_niveau_etude">Niveau d'étude:</label>
+
+                    <select name="niveau_etude" id="id_niveau_etude">
+                    <option value="1CP" {% if form.niveau_etude.value == "1CP" %}selected{% endif %}>1CP</option>
+                    <option value="2CP" {% if form.niveau_etude.value == "2CP" %}selected{% endif %}>2CP</option>
+                    <option value="1CS" {% if form.niveau_etude.value == "1CS" %}selected{% endif %}>1CS</option>
+                    <option value="2CS" {% if form.niveau_etude.value == "2CS" %}selected{% endif %}>2CS</option>
+                    <option value="3CS" {% if form.niveau_etude.value == "3CS" %}selected{% endif %}>3CS</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="id_telephone">Telephone:</label>
+                    <input type="number" name="telephone" required="" aria-invalid="true" aria-describedby="id_telephone_error" id="id_telephone" value="{{ form.telephone.value|default_if_none:'' }}">
+                </div>
+
+                <div>
+                    <label for="id_password1">Mot de passe:</label>
+                <div class="helptext" id="id_password1_helptext"><ul><li>Votre mot de passe ne doit pas être trop ressemblant au reste de vos informations personnelles</li><li>Il doit contenir au moins 8 caractères</li><li>Il ne peut pas être un mot de passe communement utilisé</li><li>Il ne doit pas être entièrement numérique.</li></ul></div>
+                <input type="password" name="password1" autocomplete="new-password" required="" aria-describedby="id_password1_helptext" id="id_password1">
+                    
+                </div>
+
+                <div>
+                    <label for="id_password2">Confimation du mot de passe:</label>
+
+                <div class="helptext" id="id_password2_helptext">Entrez le même mot de passe pour vérification.</div>
+                <input type="password" name="password2" autocomplete="new-password" required="" aria-invalid="true" aria-describedby="id_password2_helptext id_password2_error" id="id_password2">
+                </div>
+                <p>&nbsp;&nbsp;&nbsp;</p>
+            
+                <input type = "submit" value = "S'inscrire" class="submit1"/>
+            </form>
+            <a href = '{%url "authentification" %}'>Déjà un compte ? se connecter</a>
+            </div>
+             
+        </div>
+            <script type="text/javascript" src = "{% static 'js/login.js' %}"></script>
+    </body>
+    </html>

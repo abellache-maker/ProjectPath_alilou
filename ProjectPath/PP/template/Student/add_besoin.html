@@ -1,0 +1,172 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Besoin</title>
+    <link rel="stylesheet" href="{% static 'css/besoin.css' %}">
+    <title>Déclarer un besoin - PROJECTPATH</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/besoin.css' %}">
+</head>
+<body>
+
+<nav>
+        <div class="logo">
+            <i class="fa-solid fa-rocket"></i>
+            <div class="txt">
+                <h4>PROJECTPATH</h4>
+                <p>Innovation Hub</p>
+            </div>
+        </div>
+        <div class="nav-links" id="nav-links">
+            <div id="dash" class="same" data-page="{%url 'home' user_id%}">
+                <i class="fa-solid fa-house-user"></i>
+                <p>Dashboard</p>
+            </div>
+            <div class="same" id="soumettre" data-page="{%url 'add_project' user_id%}">
+                <i class="fa-solid fa-folder-plus"></i>
+                <p>Soumettre un projet</p>
+            </div>
+            <div class="same active" id="besoin" data-page="{%url 'add_request' user_id%}">
+                <i class="fa-regular fa-square-plus"></i>
+                <p>Déclarer un besoin</p>
+            </div>
+            <div class="same" id="message" data-page="{%url 'message_etudiant' user_id%}">
+                <i class="fa-regular fa-message"></i>
+                <p>Messages</p>
+            </div>
+            <div class="same" id="profil" data-page="{%url 'user_details' user_id%}">
+                <i class="fa-regular fa-user"></i>
+                <p>Profil</p>
+            </div>
+
+            <div class="same" id="profil" data-page="{%url 'logout'%}">
+                <p>Se déconnecter</p>
+            </div>
+        <div class="nav-right">
+            <div class="compte">
+                <span id="s1">{{ user.first_name|first }}</span>
+                <span id="s2">{{user.last_name}} {{user.first_name}}</span>
+            </div>
+            <div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('show')">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+
+     <main class="container">
+        <section class="banner besoin-banner">
+            <h1>Déclarer un besoin</h1>
+            <p>Faites connaître vos besoins en ressources, matériel, espace ou accompagnement</p>
+        </section>
+
+        <section class="card light-blue-bg">
+            <h2 class="card-title-blue">Types de besoins disponibles</h2>
+            <div class="besoins-grid">
+                <div class="besoin-col">
+                    <div class="besoin-item"><i class="fa-solid fa-desktop text-blue"></i><p><strong>Matériel:</strong> Ordinateurs, équipements</p></div>
+                    <div class="besoin-item"><i class="fa-solid fa-sack-dollar text-warning"></i><p><strong>Budget:</strong> Financement, subventions</p></div>
+                    <div class="besoin-item"><i class="fa-solid fa-flask text-info"></i><p><strong>Laboratoire:</strong> Accès aux équipements</p></div>
+                    <div class="besoin-item"><i class="fa-solid fa-book text-success"></i><p><strong>Formation:</strong> Ateliers, cours</p></div>
+                </div>
+                <div class="besoin-col">
+                    <div class="besoin-item"><i class="fa-solid fa-building text-gray"></i><p><strong>Espace:</strong> Salle de réunion, bureau</p></div>
+                    <div class="besoin-item"><i class="fa-solid fa-users text-purple"></i><p><strong>Encadrement:</strong> Mentors, conseillers</p></div>
+                    <div class="besoin-item"><i class="fa-solid fa-screwdriver-wrench text-gray-dark"></i><p><strong>Support technique:</strong> Assistance IT</p></div>
+                    <div class="besoin-item"><i class="fa-solid fa-handshake text-orange"></i><p><strong>Networking:</strong> Contacts, partenaires</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="card-header">
+                <h2>Formulaire de demande</h2>
+                <p>Décrivez précisément votre besoin pour faciliter son traitement</p>
+            </div>
+
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    Veuillez corriger les erreurs du formulaire.
+                </div>
+            {% endif %}
+
+            <form class="form-grid" method="POST" action="{% url 'add_request' user_id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="id_projet_concerne">Projet concerné <span class="required">*</span></label>
+                    {{ form.projet_concerne }}
+                    {% if form.projet_concerne.errors %}
+                        <span class="help-text">{{ form.projet_concerne.errors }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_typeDeBesoin">Type de besoin <span class="required">*</span></label>
+                    {{ form.typeDeBesoin }}
+                    {% if form.typeDeBesoin.errors %}
+                        <span class="help-text">{{ form.typeDeBesoin.errors }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_description">Description du besoin <span class="required">*</span></label>
+                    {{ form.description }}
+                    <span class="help-text">Exemple: "2 ordinateurs portables avec 16GB RAM pour le développement"</span>
+                    {% if form.description.errors %}
+                        <span class="help-text">{{ form.description.errors }}</span>
+                    {% endif %}
+                </div>
+
+
+                <div class="form-group">
+                    <label for="id_justification">Justification <span class="required">*</span></label>
+                    {{ form.justification }}
+                    <span class="help-text">Expliquez comment ce besoin contribuera au succès de votre projet</span>
+                    {% if form.justification.errors %}
+                        <span class="help-text">{{ form.justification.errors }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_file_path">Pièce jointe</label>
+                    {{ form.file_path }}
+                    {% if form.file_path.errors %}
+                        <span class="help-text">{{ form.file_path.errors }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Priorité</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            {{form.priority}}
+                        </label>
+                    </div>
+                </div>
+
+                <div class="action-footer">
+                    <div class="submit-wrapper">
+                        <button class="btn-submit-magenta" type="submit"><i class="fa-regular fa-paper-plane"></i> Soumettre la demande</button>
+                        <p class="action-note" style="text-align:center;">Votre demande sera examinée par l'administration dans les plus brefs délais</p>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer style="margin-top: 50px; text-align: center; color: #6b7280; font-size: 13px; padding-bottom: 20px;">
+        <p>© 2026 PROJECTPATH - Plateforme de déclaration des startups</p>
+        <p>École Nationale | Innovation & Entrepreneuriat</p>
+    </footer>
+
+
+    <script type="text/javascript" src = "{% static 'js/besoin.js' %}"></script>    
+</body>
+</html>

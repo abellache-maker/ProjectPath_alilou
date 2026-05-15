@@ -1,0 +1,154 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soumettre un projet - PROJECTPATH</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/soumission.css' %}">
+</head>
+<body>
+  
+    <!-- NAVBAR unifiée -->
+    <nav>
+        <div class="logo">
+            <i class="fa-solid fa-rocket"></i>
+            <div class="txt">
+                <h4>PROJECTPATH</h4>
+                <p>Innovation Hub</p>
+            </div>
+        </div>
+        <div class="nav-links" id="nav-links">
+            <div id="dash" class="same" data-page="{%url 'home' user_id%}">
+                <i class="fa-solid fa-house-user"></i>
+                <p>Dashboard</p>
+            </div>
+            <div class="same active" id="soumettre" data-page="{%url 'add_project' user_id%}">
+                <i class="fa-solid fa-folder-plus"></i>
+                <p>Soumettre un projet</p>
+            </div>
+            <div class="same" id="besoin" data-page="{%url 'add_request' user_id%}">
+                <i class="fa-regular fa-square-plus"></i>
+                <p>Déclarer un besoin</p>
+            </div>
+            <div class="same" id="message" data-page="{%url 'message_etudiant' user_id%}">
+                <i class="fa-regular fa-message"></i>
+                <p>Messages</p>
+            </div>
+            <div class="same" id="profil" data-page="{%url 'user_details' user_id%}">
+                <i class="fa-regular fa-user"></i>
+                <p>Profil</p>
+            </div>
+
+            <div class="same" id="profil" data-page="{%url 'logout'%}">
+                <p>Se déconnecter</p>
+            </div>
+
+        <div class="nav-right">
+            <div class="compte">
+                <span id="s1">{{ user.first_name|first }}</span>
+                <span id="s2">{{user.last_name}} {{user.first_name}}</span>
+            </div>
+            <div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('show')">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+    
+   <!-- MAIN CONTENT -->
+    <main class="container">
+        
+        <!-- Banner -->
+        <section class="banner soumission-banner">
+            <h1>Soumettre un nouveau projet</h1>
+            <p>Présentez votre startup et obtenez le soutien de votre école</p>
+        </section>
+
+        <!-- Card 1 -->
+        <section class="card">
+            <div class="card-header">
+                <h2>Informations du projet</h2>
+                <p>Remplissez tous les champs pour soumettre votre projet</p>
+            </div>
+            
+            <form enctype="multipart/form-data" method="POST" class="form-grid" onsubmit="return handleSubmit(this)">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Nom du projet / Start-up <span class="required">*</span></label>
+                    {% if form.nom_projet.errors %}
+                        <div class="form-error">{{ form.nom_projet.errors }}</div>
+                    {% endif %}
+                    {{ form.nom_projet }}
+                </div>
+                
+                <div class="form-group">
+                    <label>Domaine <span class="required">*</span></label>
+                    {% if form.domaine.errors %}
+                        <div class="form-error">{{ form.domaine.errors }}</div>
+                    {% endif %}
+                    {{ form.domaine }}
+                </div>
+                
+                <div class="form-group">
+                    <label>Description de l'idée <span class="required">*</span></label>
+                    {% if form.description.errors %}
+                        <div class="form-error">{{ form.description.errors }}</div>
+                    {% endif %}
+                    {{ form.description }}
+                    <span class="help-text">Expliquez votre concept, votre vision et ce qui rend votre projet unique</span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Problèmes à résoudre <span class="required">*</span></label>
+                    {% if form.probleme_resolu.errors %}
+                        <div class="form-error">{{ form.probleme_resolu.errors }}</div>
+                    {% endif %}
+                    {{ form.probleme_resolu }}
+                </div>
+                
+                <div class="form-group">
+                    <label>Objectifs<span class="required">*</span></label>
+                    {% if form.objectif.errors %}
+                        <div class="form-error">{{ form.objectif.errors }}</div>
+                    {% endif %}
+                    {{ form.objectif }}
+                </div>
+
+                 <div class="form-group">
+                    {% if form.file_path.errors %}
+                        <div class="form-error">{{ form.file_path.errors }}</div>
+                    {% endif %}
+                    <label for="objectif">Documents à soumettre (fichier text obligatoire) <span class="required">*</span></label>
+                    {{form.file_path}}
+                </div>
+
+               
+                <!-- Footer actions -->
+                <div class="action-footer">
+                    <div class="action-buttons">
+                        <button type="submit" class="btn-submit"><i class="fa-regular fa-paper-plane"></i> Soumettre le projet</button>
+                        <a href="{% url 'home' user_id %}" class="btn-draft" style="text-decoration: none; display: inline-flex; align-items: center;"><i class="fa-solid fa-arrow-left"></i> Retour</a>
+                    </div>
+                    <p class="action-note">Une fois soumis, votre projet sera examiné par l'administration de l'école</p>
+                </div>
+
+            </form>
+        </section>
+
+    </main>
+
+    <footer style="margin-top: 50px; text-align: center; color: #6b7280; font-size: 13px; padding-bottom: 20px;">
+        <p>© 2026 PROJECTPATH - Plateforme de déclaration des startups</p>
+        <p>École Nationale | Innovation & Entrepreneuriat</p>
+    </footer>
+
+    <script type="text/javascript" src="{% static 'js/soumission.js' %}"></script>
+</body>
+</html>
