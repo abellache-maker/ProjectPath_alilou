@@ -1,0 +1,125 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - PROJECTPATH</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/message.css' %}">
+</head>
+<body>
+  
+
+   <nav>
+        <div class="logo">
+            <i class="fa-solid fa-rocket"></i>
+            <div class="txt">
+                <h4>PROJECTPATH</h4>
+                <p>Innovation Hub</p>
+            </div>
+        </div>
+        <div class="nav-links" id="nav-links">
+            <div id="dash" class="same" data-page="{%url 'home' user_id%}">
+                <i class="fa-solid fa-house-user"></i>
+                <p>Dashboard</p>
+            </div>
+            <div class="same" id="soumettre" data-page="{%url 'add_project' user_id%}">
+                <i class="fa-solid fa-folder-plus"></i>
+                <p>Soumettre un projet</p>
+            </div>
+            <div class="same" id="besoin" data-page="{%url 'add_request' user_id%}">
+                <i class="fa-regular fa-square-plus"></i>
+                <p>Déclarer un besoin</p>
+            </div>
+            <div class="same active" id="message" data-page="{%url 'message_etudiant' user_id%}">
+                <i class="fa-regular fa-message"></i>
+                <p>Messages</p>
+            </div>
+            <div class="same" id="profil" data-page="{%url 'user_details' user_id%}">
+                <i class="fa-regular fa-user"></i>
+                <p>Profil</p>
+            </div>
+
+            <div class="same" id="profil" data-page="{%url 'logout'%}">
+                <p>Se déconnecter</p>
+            </div>
+        <div class="nav-right">
+            <div class="compte">
+                <span id="s1">{{ user.first_name|first }}</span>
+                <span id="s2">{{user.last_name}} {{user.first_name}}</span>
+            </div>
+            <div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('show')">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+
+         <!-- MAIN -->
+    <main class="container">
+
+        <!-- BANNER -->
+        <section class="message-banner">
+            <h1>Messages</h1>
+            <p>Communication avec l'administration et les équipes</p>
+        </section>
+
+        <!-- MAIN CARD -->
+        <section class="message-card">
+
+            <!-- Header -->
+            <div class="message-header">
+                <div class="message-header-text">
+                    <h2>Boite de réception</h2>
+                {%if nbr_message_non_vu%}
+                    <p> {{nbr_message_non_vu}} messages non lus.</p>
+                {%else%}
+                    <p>Tous les messages sont lus</p>
+                {%endif%}
+                </div>
+                <button class="btn-count" id="btn-count">{{nbr_message}} messages</button>
+            </div>
+
+            <!-- Tabs -->
+            <div class="message-tabs-container">
+                <button class="msg-tab active" data-tab="recus">Reçus ({{nbr_admin}})</button>
+                <button class="msg-tab" data-tab="envoyes">Envoyés ({{nbr_etudiant}})</button>
+            </div>
+
+            <!-- Search -->
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="search-input" placeholder="Rechercher dans les messages...">
+            </div>
+
+            <!-- Content Area -->
+            <div class="message-content-area">
+
+                <!-- LEFT: Liste -->
+                <div class="message-list-panel" id="message-list">
+                    {{ message|json_script:"message-data" }}
+                </div>
+                <script>
+                let username = "{{user.username}}";
+                </script>
+
+                <!-- RIGHT: Détail -->
+                <div class="message-detail-panel" id="message-detail">
+                    <div class="empty-detail-state">
+                        <i class="fa-regular fa-comments fa-3x"></i>
+                        <p>Sélectionnez un message pour le lire</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script type="text/javascript" src = "{% static 'js/message.js' %}"></script>
+</body>
+</html>

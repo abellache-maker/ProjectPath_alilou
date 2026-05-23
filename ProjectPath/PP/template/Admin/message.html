@@ -1,0 +1,119 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>PROJECTPATH - Admin Dashboard</title>
+  <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+</head>
+   <!-- NAVIGATION BAR -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <!-- Left: Logo -->
+      <div class="navbar-left">
+        <div class="logo">
+          <div class="logo-icon">
+            <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba2cwbvdxxc0.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
+          </div>
+          <div class="logo-text">
+            <div class="logo-title">
+              <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba396oyup91c.png" alt="PROJECTPATH" style="height: 20px; object-fit: contain;">
+            </div>
+            <div class="logo-subtitle">Innovation Hub</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center: Navigation Menu -->
+      <div class="navbar-center">
+        <a href =" {%url 'Staff_DashBoard' user_id%}" class="nav-link">
+          <span class="nav-icon">
+            <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba2gkqu22o00.png" alt="Dashboard" style="width: 16px; height: 16px; object-fit: contain;">
+          </span>
+          Dashboard
+        </a>
+        <a class="nav-link  active" href=" {%url 'message_staff' user_id%}">
+          <span class="nav-icon">
+            <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba2klfrnfchs.png" alt="Messages" style="width: 16px; height: 16px; object-fit: contain;">
+          </span>
+          Message 
+        </a>
+        <a class="nav-link" href="{%url 'staff_details' user_id%}"> <!--Navigation ici-->
+          <span class="nav-icon">
+            <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba3ap29ifi80.png" alt="Profil" style="width: 16px; height: 16px; object-fit: contain;">
+          </span>
+          Profil        
+          </a>
+      </div>
+
+      <!-- Right: Profile -->
+      <div class="navbar-right">
+        <div class="profile-info">
+          <div class="profile-avatar">
+            <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba442mtvv5ds.png" alt="Profile" style="width: 100%; height: 100%; object-fit: contain;">
+          </div>
+          <span class="profile-name">{{user.username}}</span>
+          <a href ="{%url 'logout'%}" class = "nav-link">Se déconnecter</a></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- MESSAGES PAGE -->
+    
+    <!-- Hero Header -->
+    <div class="hero-header" style="background-image: url('https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba40lo7f1vcw.png'); background-size: cover; background-position: center;">
+      <h1 style="color: white;">Messages</h1>
+      <p style="color: white; opacity: 0.95;">Communication avec l'équipe de l'administration</p>
+    </div>
+
+    <div class="container">
+      
+      <!-- Messages Layout -->
+      <div class="messages-layout">
+        
+        <!-- Left Panel -->
+        <div class="messages-left">
+          <div class="messages-header">
+            <h3>Boîte de réception</h3>
+            <span class="message-count">{{mes}} messages</span>
+          </div>
+
+          <!-- Message Tabs -->
+          <div class="message-tabs">
+            <button class="message-tab active" onclick="switchMessageTab('received')">Reçus {{mes_recu}}</button>
+            <button class="message-tab" onclick="switchMessageTab('sent')">Envoyés {{mes_envoye}}</button>
+          </div>
+
+          <!-- Search Bar -->
+          <div class="search-bar">
+            <input type="text" placeholder="Rechercher des les messages">
+          </div>
+
+          <!-- Messages List -->
+          <div id="messages-list" class="messages-list">
+            <div class="empty-state">
+              <div class="empty-icon">💬</div>
+              {{ message|json_script:"message-data" }}
+              <script>
+                let username = "{{user.username}}";
+            </script>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="messages-right" id = "message-detail">
+          <div class="empty-state">
+            <div class="empty-icon">💬</div>
+            <p>Sélectionner un message pour le voir</p>
+          </div>
+        </div>
+        
+
+      </div>
+
+      </div>
+  <script src="{% static 'js/message_admin.js' %}"></script>
+</body>
+</html>

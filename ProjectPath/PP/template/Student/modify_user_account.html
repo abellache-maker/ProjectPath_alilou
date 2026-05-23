@@ -1,0 +1,142 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil - PROJECTPATH</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/profil.css' %}">
+</head>
+<body>
+
+    <!-- NAVBAR unifiée -->
+    <nav>
+        <div class="logo">
+            <i class="fa-solid fa-rocket"></i>
+            <div class="txt">
+                <h4>PROJECTPATH</h4>
+                <p>Innovation Hub</p>
+            </div>
+        </div>
+        <div class="nav-links" id="nav-links">
+            <div id="dash" class="same" data-page="{%url 'home' user_id%}">
+                <i class="fa-solid fa-house-user"></i>
+                <p>Dashboard</p>
+            </div>
+            <div class="same" id="soumettre" data-page="{%url 'add_project' user_id%}">
+                <i class="fa-solid fa-folder-plus"></i>
+                <p>Soumettre un projet</p>
+            </div>
+            <div class="same" id="besoin" data-page="{%url 'add_request' user_id%}">
+                <i class="fa-regular fa-square-plus"></i>
+                <p>Déclarer un besoin</p>
+            </div>
+            <div class="same" id="message" data-page="{%url 'message_etudiant' user_id%}">
+                <i class="fa-regular fa-message"></i>
+                <p>Messages</p>
+            </div>
+            <div class="same" id="profil" data-page="{%url 'user_details' user_id%}">
+                <i class="fa-regular fa-user"></i>
+                <p>Profil</p>
+            </div>
+
+             <div class="same" id="profil" data-page="{%url 'logout'%}">
+                <p>Se déconnecter</p>
+            </div>
+        <div class="nav-right">
+            <div class="compte">
+                <span id="s1">{{ user.first_name|first }}</span>
+                <span id="s2">{{user.last_name}} {{user.first_name}}</span>
+            </div>
+            <div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('show')">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="container">
+
+        <!-- Card 1: Information de profil -->
+    <section class="card">
+        <div class="card-header">
+            <div>
+                <h2>Information de profil</h2>
+                <p>Gérer vos informations personnelle</p>
+            </div>
+
+                <a type="button" href = "{%url 'user_details' user.id%}">Annuler</a>
+
+    
+    <div class="info-section">
+        <div class="info-title">
+             <i class="fa-regular fa-user"></i> Informations personnelles
+        </div>
+        <div class="info-grid">
+        <form action="" method = "POST">
+            {% csrf_token %}
+            <!--Je dois refaire ce truc-->
+            <div class="form-group">
+            {{ form.username.errors }}
+            <label for="id_nom">Username</label>
+            {{ form.username }}
+            </div>
+
+            <div class="form-group">
+            {{ form.matricule.errors }}
+            <label for="id_nom">matricule</label>
+            {{ form.matricule }}
+            </div>
+            
+            <div class="form-group">
+            {{ form.last_name.errors }}
+            <label for="id_nom">Nom</label>
+            {{ form.last_name }}
+            </div>
+
+            <div class="form-group">
+            {{ form.first_name.errors }}
+            <label for="id_nom">Prénom</label>
+            {{ form.first_name }}
+            </div>
+
+            <div class="form-group">
+            {{ form.email.errors }}
+            <label for="id_email">Email</label>
+            {{ form.email }}
+             </div>
+
+             <div class="form-group">
+            {{ form.niveau_etude.errors }}
+            <label for="id_nom">Niveau d'étude</label>
+            {{ form.niveau_etude}}
+            </div>
+
+            <div class="form-group">
+            {{ form.telephone.errors }}
+            <label for="id_nom">Téléphone</label>
+            {{ form.telephone}}
+            </div>
+
+            <p>&nbsp;&nbsp;&nbsp;</p>
+            <input type="submit"  value = "modifier"/>
+        </form>
+    </div>
+    </div>
+    </div>
+    </div>
+    </section>
+    </main>
+     <footer style="margin-top: 50px; text-align: center; color: #6b7280; font-size: 13px; padding-bottom: 20px;">
+        <p>© 2026 PROJECTPATH - Plateforme de déclaration des startups</p>
+        <p>École Nationale | Innovation & Entrepreneuriat</p>
+    </footer>
+    <script type="text/javascript" src = "{% static 'js/profil.js' %}"></script>
+    </body>
+    </html>

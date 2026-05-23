@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%load static%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+<body>
+
+    <div class="description">
+        <div class="logo">
+            
+            <i class="fa-solid fa-rocket" id="fusee"></i>
+            <div class="nom">
+                <h2>projectpath</h2>
+                <p>Innovation & Startup Hub</p>
+            </div>
+        </div>
+            <h3>Transformez vos idées en réalité</h3>
+            <p id="des">La plateforme officielle de déclaration et de gestion des startups de votre école.</p>
+
+            <div class="same">
+                <i class="fa-regular fa-circle-dot"></i>
+                <div class="txt">
+                    <h4>Soumettez vos projets</h4>
+                    <p>Déclarez votre startup et présentez votre vision</p>
+                </div>
+            </div>
+
+             <div class="same">
+                <i class="fa-regular fa-circle-dot"></i>
+                <div class="txt">
+                    <h4>Obtenez du soutien</h4>
+                    <p>Accédez aux ressources et à l'accompagnement</p>
+                </div>
+            </div>
+
+             <div class="same">
+                <i class="fa-regular fa-circle-dot"></i>
+                <div class="txt">
+                    <h4>Suivez vos progrès</h4>
+                    <p>Dashboard complet et notifications en temps réel</p>
+                </div>
+            </div>
+        
+    </div>
+
+    <div class="formulaire" >
+    <div class="container active" id="connexion">
+        <h3>Bienvenue sur PROJECTPATH</h3>
+      <p>Connectez-vous ou créez un compte pour commencer</p>
+
+      
+            <form action = "" method = "POST">
+                {%csrf_token%}
+                {{form.as_p}}
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <input type = "submit" class="submit1" value = "Se connecter"/>
+            </form>
+
+            {% for message in messages %}
+    
+                <div class="alert alert-success">
+                    <a class="close" href="#" data-dismiss="alert">×</a>
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+      <p class="dernier">En vous connectant, vous acceptez nos conditions d'utilisation</p>
+
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+    <a href = '{%url "sign_in" %}'>Pas de compte ? s'inscrire</a>
+      </div>
+      
+
+      </div>
+      
+       <div class="container" id="inscription">
+        <h3>Bienvenue sur PROJECTPATH</h3>
+      <p>Connectez-vous ou créez un compte pour commencer</p>
+
+             
+      
+      </div>
+
+    </div>
+
+
+            <script type="text/javascript" src = "{% static 'js/login.js' %}"></script>
+    </body>
+    </html>

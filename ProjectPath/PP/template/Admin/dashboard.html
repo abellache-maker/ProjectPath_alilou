@@ -1,0 +1,170 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>PROJECTPATH - Admin Dashboard</title>
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+</head>
+ 
+  <!-- NAVIGATION BAR -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <!-- Left: Logo -->
+      <div class="navbar-left">
+        <div class="logo">
+          <div class="logo-icon">
+            <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba2cwbvdxxc0.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
+          </div>
+          <div class="logo-text">
+            <div class="logo-title">
+              <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba396oyup91c.png" alt="PROJECTPATH" style="height: 20px; object-fit: contain;">
+            </div>
+            <div class="logo-subtitle">Innovation Hub</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center: Navigation Menu -->
+      <div class="navbar-center">
+        <a href =" {%url 'Staff_DashBoard' user_id%}" class="nav-link active">
+          <span class="nav-icon">
+            <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba2gkqu22o00.png" alt="Dashboard" style="width: 16px; height: 16px; object-fit: contain;">
+          </span>
+          Dashboard
+        </a>
+        <a class="nav-link" href=" {%url 'message_staff' user_id%}">
+          <span class="nav-icon">
+            <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba2klfrnfchs.png" alt="Messages" style="width: 16px; height: 16px; object-fit: contain;">
+          </span>
+          Message 
+        </a>
+        <a class="nav-link" href="{%url 'staff_details' user_id%}"> <!--Navigation ici-->
+          <span class="nav-icon">
+            <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba3ap29ifi80.png" alt="Profil" style="width: 16px; height: 16px; object-fit: contain;">
+          </span>
+          Profil        
+          </a>
+      </div>
+
+      <!-- Right: Profile -->
+      <div class="navbar-right">
+        <div class="profile-info">
+          <div class="profile-avatar">
+            <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba442mtvv5ds.png" alt="Profile" style="width: 100%; height: 100%; object-fit: contain;">
+          </div>
+          <span class="profile-name">{{user.username}}</span>
+          <a href ="{%url 'logout'%}" class = "nav-link">Se déconnecter</a></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- DASHBOARD PAGE -->
+  <div id="dashboard-page" class="page active">
+
+    <div class="container">
+      
+      <!-- Statistics Section -->
+      <div class="stats-section">
+        <div class="stats-card">
+          <div class="stats-content">
+            <div class="stats-label">Total des projets</div>
+            <div class="stats-number" id="total-projects">{{prj_nbr}}</div>
+            <div class="stats-desc">
+              <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba2srn9k229s.png" alt="Total" style="width: 16px; height: 16px; object-fit: contain;">
+              Tous les projets
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-card" style="background-image: url('https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba3hf3dztt6o.png'); background-size: cover; background-position: center;">
+          <div class="stats-content">
+            <div class="stats-label">Projets en attente</div>
+            <div class="stats-number" id="pending-projects">{{prj_enAtt}}</div>
+            <div class="stats-desc">
+              <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba2vjm5xhyww.png" alt="Attente" style="width: 16px; height: 16px; object-fit: contain;">
+              Nécessitent validation
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-card" style="background: #D1FAE5; background-image: none;">
+          <div class="stats-content">
+            <div class="stats-label">Projets approuvés</div>
+            <div class="stats-number" id="approved-projects">{{prj_accepte}}</div>
+          </div>
+        </div>
+
+        <div class="stats-card highlight">
+          <div class="stats-content">
+            <div class="stats-label">Besoins en attente</div>
+            <div class="stats-number" id="pending-needs">{{bs_enAtt}}</div>
+            <div class="stats-desc">
+              <img src="https://miaoda-conversation-file.s3cdn.medo.dev/user-arfmflpo3z0g/conv-b9r4415ygtmo/20260429/file-ba2wi95gotmo.png" alt="Besoins" style="width: 16px; height: 16px; object-fit: contain;">
+              Sur {{bs_nbr}} total
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project Management Section -->
+      <div class="section">
+        <div class="section-header">
+          <div>
+            <h2>Gestion des projets</h2>
+            <p class="section-subtitle">Valider, refuser ou demander des modifications</p>
+          </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+          <button class="tab-btn active" onclick="filterProjects('pending')">En attente</button>
+          <button class="tab-btn" onclick="filterProjects('all')">Tous les projets</button>
+          <button class="tab-btn" onclick="filterProjects('approved')">Approuvés</button>
+        </div>
+
+        <!-- Projects List -->
+        <div id="projects-list" class="projects-list">
+          <script id="projects-data" type="application/json">
+              {{ project|safe }}
+            </script>
+            <script>
+                let user_id = {{user_id}};
+            </script>
+        </div>
+      </div>
+
+      <!-- Needs Management Section -->
+      <div class="section">
+        <div class="section-header">
+          <div>
+            <h2>Demandes des besoins</h2>
+            <p class="section-subtitle">Gérer les demandes de ressources des étudiants</p>
+          </div>
+        </div>
+
+        <!-- Needs List -->
+        <div id="needs-list" class="needs-list"></div>
+        <script id="besoin-data" type="application/json">
+              {{ besoin|safe }}
+          </script>
+      </div>
+
+    </div>
+  </div>
+
+ 
+      </div>
+
+    </div>
+  </div>
+
+
+  <script src="{% static 'js/admin.js' %}"></script>
+</body>
+</html>
+
+
